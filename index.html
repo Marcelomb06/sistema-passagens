@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Vendas de Passagens Aéreas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-plane-departure"></i>
+                <h1>AeroViagens</h1>
+            </div>
+            <nav>
+                <a href="#" onclick="showSection('home')"><i class="fas fa-home"></i> Início</a>
+                <a href="#" onclick="showSection('busca')"><i class="fas fa-search"></i> Buscar</a>
+                <a href="#" onclick="showSection('minhasReservas')"><i class="fas fa-ticket-alt"></i> Minhas Reservas</a>
+                <a href="#" onclick="showSection('ofertas')"><i class="fas fa-tags"></i> Ofertas</a>
+            </nav>
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <section id="home" class="section active">
+        <div class="hero">
+            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200" alt="Avião">
+            <div class="hero-content">
+                <h2>Encontre sua próxima viagem</h2>
+                <p>As melhores ofertas de passagens aéreas</p>
+                <button class="btn-primary" onclick="showSection('busca')"><i class="fas fa-search"></i> Buscar Passagens</button>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Compra Segura</h3>
+                    <p>Pagamento 100% seguro e protegido</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Suporte 24/7</h3>
+                    <p>Atendimento disponível a qualquer hora</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-tag"></i>
+                    <h3>Melhores Preços</h3>
+                    <p>Garantia do menor preço do mercado</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>App Mobile</h3>
+                    <p>Gerencie suas viagens pelo celular</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="busca" class="section">
+        <div class="container">
+            <h2><i class="fas fa-search"></i> Buscar Passagens</h2>
+            <form id="formBusca" class="form-card">
+                <div class="trip-type">
+                    <label class="radio-label">
+                        <input type="radio" name="tripType" value="ida-volta" checked>
+                        <span>Ida e Volta</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="tripType" value="somente-ida">
+                        <span>Somente Ida</span>
+                    </label>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-plane-departure"></i> Origem</label>
+                        <input type="text" id="origem" required placeholder="Ex: São Paulo" list="cidades">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-plane-arrival"></i> Destino</label>
+                        <input type="text" id="destino" required placeholder="Ex: Rio de Janeiro" list="cidades">
+                    </div>
+                </div>
+                <div class="form-row dates-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i> Data de Ida</label>
+                        <input type="date" id="dataIda" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i> Data de Volta</label>
+                        <input type="date" id="dataVolta">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-users"></i> Passageiros</label>
+                        <input type="number" id="passageiros" min="1" max="9" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-chair"></i> Classe</label>
+                        <select id="classe">
+                            <option value="economica">Econômica</option>
+                            <option value="executiva">Executiva</option>
+                            <option value="primeira">Primeira Classe</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary"><i class="fas fa-search"></i> Pesquisar Voos</button>
+            </form>
+            <datalist id="cidades">
+                <option value="São Paulo"></option>
+                <option value="Rio de Janeiro"></option>
+                <option value="Brasília"></option>
+                <option value="Salvador"></option>
+                <option value="Fortaleza"></option>
+                <option value="Belo Horizonte"></option>
+                <option value="Curitiba"></option>
+                <option value="Recife"></option>
+                <option value="Porto Alegre"></option>
+                <option value="Manaus"></option>
+            </datalist>
+        </div>
+    </section>
+
+    <section id="resultados" class="section">
+        <div class="container">
+            <h2><i class="fas fa-plane"></i> Voos Disponíveis</h2>
+            <div class="filters">
+                <button class="filter-btn active" onclick="filtrarVoos('todos')">Todos</button>
+                <button class="filter-btn" onclick="filtrarVoos('preco')">Menor Preço</button>
+                <button class="filter-btn" onclick="filtrarVoos('duracao')">Menor Duração</button>
+                <button class="filter-btn" onclick="filtrarVoos('horario')">Melhor Horário</button>
+            </div>
+            <div id="listaVoos"></div>
+        </div>
+    </section>
+
+    <section id="passageiro" class="section">
+        <div class="container">
+            <h2>Dados do Passageiro</h2>
+            <div class="resumo-voo" id="resumoVoo"></div>
+            <form id="formPassageiro" class="form-card">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="nome" required>
+                </div>
+                <div class="form-group">
+                    <label>CPF</label>
+                    <input type="text" id="cpf" required placeholder="000.000.000-00">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <input type="tel" id="telefone" required placeholder="(00) 00000-0000">
+                </div>
+                <button type="submit" class="btn-primary">Continuar para Pagamento</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="pagamento" class="section">
+        <div class="container">
+            <h2>Pagamento</h2>
+            <div class="resumo-voo" id="resumoPagamento"></div>
+            <form id="formPagamento" class="form-card">
+                <div class="form-group">
+                    <label>Forma de Pagamento</label>
+                    <select id="formaPagamento" onchange="togglePagamento()">
+                        <option value="cartao">Cartão de Crédito</option>
+                        <option value="pix">PIX</option>
+                    </select>
+                </div>
+                
+                <div id="camposCartao">
+                    <div class="form-group">
+                        <label>Nome no Cartão</label>
+                        <input type="text" id="nomeCartao">
+                    </div>
+                    <div class="form-group">
+                        <label>Número do Cartão</label>
+                        <input type="text" id="numeroCartao" placeholder="0000 0000 0000 0000">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Validade</label>
+                            <input type="text" id="validade" placeholder="MM/AA">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" id="cvv" placeholder="000">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="camposPix" style="display:none;">
+                    <div class="pix-info">
+                        <p>Escaneie o QR Code ou copie o código PIX</p>
+                        <div class="qr-code">📱</div>
+                        <p class="pix-code">00020126580014BR.GOV.BCB.PIX...</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Finalizar Compra</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="confirmacao" class="section">
+        <div class="container">
+            <div class="confirmacao-card">
+                <div class="success-icon"><i class="fas fa-check"></i></div>
+                <h2>Compra realizada com sucesso!</h2>
+                <div id="resumoFinal"></div>
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="showSection('home'); resetarSistema()"><i class="fas fa-search"></i> Nova Busca</button>
+                    <button class="btn-secondary" onclick="baixarBilhete()"><i class="fas fa-download"></i> Baixar Bilhete</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ofertas" class="section">
+        <div class="container">
+            <h2><i class="fas fa-tags"></i> Ofertas Especiais</h2>
+            <div class="ofertas-grid" id="ofertasGrid"></div>
+        </div>
+    </section>
+
+    <section id="minhasReservas" class="section">
+        <div class="container">
+            <h2><i class="fas fa-ticket-alt"></i> Minhas Reservas</h2>
+            <div class="form-card">
+                <div class="form-group">
+                    <label><i class="fas fa-search"></i> Buscar Reserva</label>
+                    <input type="text" id="codigoReserva" placeholder="Digite o código da reserva">
+                </div>
+                <button class="btn-primary" onclick="buscarReserva()"><i class="fas fa-search"></i> Buscar</button>
+            </div>
+            <div id="listaReservas"></div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
